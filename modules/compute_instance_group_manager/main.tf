@@ -91,9 +91,9 @@ resource "google_compute_instance_group_manager" "this" {
   }
 
   lifecycle {
-    # GKE and other controllers rotate the instance template automatically.
-    # Ignoring version prevents spurious diffs when the template is updated
-    # outside Terraform.
-    ignore_changes = [version]
+    # GKE rotates the instance template and autoscaler changes target_size — both
+    # are managed externally. list_managed_instances_results is set to PAGELESS
+    # by GKE but the provider defaults to PAGINATED.
+    ignore_changes = [version, target_size, list_managed_instances_results]
   }
 }
