@@ -31,8 +31,15 @@ resource "google_compute_instance_group_manager" "this" {
   list_managed_instances_results = var.list_managed_instances_results
 
   version {
-    instance_template = var.instance_template
+    instance_template = var.instance_template != "" ? var.instance_template : null
     name              = var.version_name
+  }
+
+  dynamic "target_size_policy" {
+    for_each = var.target_size_policy != null ? [var.target_size_policy] : []
+    content {
+      mode = lookup(target_size_policy.value, "mode", null)
+    }
   }
 
   dynamic "update_policy" {

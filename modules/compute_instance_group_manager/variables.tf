@@ -15,8 +15,9 @@ variable "zone" {
 }
 
 variable "instance_template" {
-  description = "Self-link of the instance template. Ignored on update when lifecycle.ignore_changes=[version] is active."
+  description = "Self-link of the instance template. Leave empty for GKE-managed IGMs; lifecycle.ignore_changes=[version] suppresses drift."
   type        = string
+  default     = ""
 }
 
 variable "version_name" {
@@ -86,4 +87,9 @@ variable "auto_healing_policies" {
     initial_delay_sec = number
   }))
   default = []
+}
+
+variable "target_size_policy" {
+  type    = any
+  default = null
 }
