@@ -52,7 +52,6 @@ resource "google_compute_instance_group_manager" "this" {
       max_unavailable_fixed   = lookup(update_policy.value, "max_unavailable_fixed", null)
       max_unavailable_percent = lookup(update_policy.value, "max_unavailable_percent", null)
       replacement_method      = lookup(update_policy.value, "replacement_method", null)
-      min_ready_sec           = lookup(update_policy.value, "min_ready_sec", null)
     }
   }
 
