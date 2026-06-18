@@ -31,7 +31,10 @@ resource "google_compute_instance_group_manager" "this" {
   list_managed_instances_results = var.list_managed_instances_results
 
   version {
-    instance_template = var.instance_template != "" ? var.instance_template : null
+    # GKE rotates the template; ignore_changes suppresses drift after import.
+    # When instance_template is not provided, use a placeholder that satisfies
+    # the provider's required-field check without triggering a real change.
+    instance_template = var.instance_template != "" ? var.instance_template : "projects/${var.project_id}/global/instanceTemplates/placeholder-managed-externally"
     name              = var.version_name
   }
 
